@@ -1,4 +1,213 @@
 # Statistics-and-Data-Analysis
+# Handling missing values:
+### 1. Imputation:
+
+Fill in the missing values with a calculated or estimated value. This could be the mean, median, or mode of the existing values in the column.
+python
+Copy code
+```python
+# Example: Impute with the mean
+mean_value = df['total_outstanding_orders'].mean()
+df['total_outstanding_orders'].fillna(mean_value, inplace=True)
+```
+### 2. Forward Fill or Backward Fill:
+
+Use the values from the previous or next row to fill in the missing values. This is especially useful when dealing with time-series data.
+python
+Copy code
+```python
+# Example: Forward fill
+df['total_outstanding_orders'].fillna(method='ffill', inplace=True)
+```
+### 3. Interpolation:
+
+Use interpolation methods to estimate missing values based on the values of neighboring data points.
+python
+Copy code
+```python
+# Example: Linear interpolation
+df['total_outstanding_orders'].interpolate(method='linear', inplace=True)
+```
+### 4. Drop Rows:
+
+If the missing values are limited and do not significantly impact the analysis, you might choose to simply remove the rows with missing values.
+python
+Copy code
+```python
+# Example: Drop rows with missing values
+df.dropna(subset=['total_outstanding_orders'], inplace=True)
+```
+### 5. Advanced Imputation:
+
+Explore more advanced imputation techniques, such as using machine learning algorithms to predict missing values based on other features in the dataset.
+Remember to carefully consider the nature of your data and the potential impact of each strategy on your analysis. It's often a good practice to document the chosen approach and reasoning behind handling missing values in your dataset.
+
+# correlation matrix
+
+The correlation matrix is a table that shows the correlation coefficients between many variables in a dataset.
+
+def - *Correlation coefficients quantify the strength and direction of the linear relationship between two variables. The values range from -1 to 1,* 
+where:
+  - (1) indicates a perfect positive linear correlation,
+  - (-1) indicates a perfect negative linear correlation,
+  - (0) indicates no linear correlation.
+By calculating the correlation matrix, you can quickly understand how different variables in your dataset are related to each other. This is valuable for various data analysis tasks, such as:
+
+1. **Identifying Relationships**: You can identify which variables have strong positive or negative relationships. For example, if the correlation coefficient between two variables is close to 1, it suggests a strong positive correlation, and if it's close to -1, it suggests a strong negative correlation.
+
+1. **Multicollinearity**: In the context of regression analysis, high correlation between independent variables might indicate multicollinearity. Multicollinearity can affect the stability and interpretability of the regression coefficients.
+
+1. **Feature Selection**: In machine learning, you might use the correlation matrix to identify and remove highly correlated features, reducing redundancy in your feature set.
+
+1. **Data Exploration**: Exploring the correlation matrix can provide insights into the structure of the data and guide further analysis.
+```python
+# Calculate the correlation matrix
+correlation_matrix = df.corr()
+
+# Create a heatmap with correlation values
+plt.figure(figsize=(8, 6))
+sns.heatmap(correlation_matrix, annot=True, cmap='coolwarm', fmt=".2f", linewidths=.5)
+plt.title('Correlation Heatmap')
+plt.show()
+```
+![alt text](image_.png)
+
+# Outliers or Anomalous
+
+using the LocalOutlierFactor (LOF) algorithm from the sklearn.neighbors module to detect outliers in your dataset. Let me break down the code and explain each part:
+
+```python
+from sklearn.neighbors import LocalOutlierFactor
+```
+
+LocalOutlierFactor is a class from the scikit-learn library that implements the Local Outlier Factor algorithm for outlier detection.
+
+```python
+Instantiate the LOF Model:
+model = LocalOutlierFactor()
+```
+You create an instance of the LocalOutlierFactor class. The default settings are used, but you can also specify parameters such as n_neighbors and contamination based on your data and requirements.
+
+```python
+#Fit the Model:
+model.fit(df)
+```
+You fit the LOF model to your DataFrame (df). This step involves calculating the LOF scores for each data point in the dataset.
+
+```python
+#Predict Anomaly Scores:
+df['lof_anomaly_score'] = model.fit_predict(df)
+```
+
+You predict the anomaly scores for each data point using the fit_predict method of the LOF model. The resulting anomaly scores are added as a new column, 'lof_anomaly_score', to your DataFrame (df).
+
+'lof_anomaly_score', representing the anomaly scores assigned by the Local Outlier Factor algorithm. 
+  - Negative scores typically indicate outliers,
+  - and the more negative the score, the more likely the point is considered an outlier.
+  - You can further analyze or visualize these scores to identify and understand potential outliers in your dataset.
+
+## KNN imputer
+* yet to write...
+
+# Reality of DS/DA/ML
+📊 Statistics: The Foundation of Data Science and AI
+
+### 1. Understanding Data:
+
+   
+📈 Explores and summarizes data, offering insights into central tendencies, variability, and distribution.
+
+### 2. Data Cleaning and Preprocessing:
+
+   
+🧹 Handles messy data, identifying missing values, outliers, and errors for improved data quality.
+
+### 3. Descriptive Statistics:
+
+   
+📊 Provides a concise summary, aiding in initial data distribution understanding.
+
+### 4. Inferential Statistics:
+
+   
+🧠 Enables drawing conclusions and predictions about a population based on a sample, crucial for machine learning.
+
+### 5. Hypothesis Testing:
+
+   
+📊 Validates assumptions, compares groups, and assesses relationships' significance for informed decision-making.
+
+### 6. Probability Theory:
+
+   
+🎲 Foundation for understanding uncertainties and randomness, crucial in machine learning algorithms.
+
+### 7. Regression Analysis:
+
+   
+📈 Models relationships between variables, aiding predictions and understanding their strength and direction.
+
+### 8. Classification and Clustering:
+
+   
+🧩 Underlies classification and clustering algorithms, grouping data based on similarities.
+
+### 9. Bayesian Statistics:
+
+   
+🔄 Integral to probabilistic modeling, updating beliefs based on new evidence.
+
+### 10. Model Evaluation and Validation:
+
+    
+📊 Evaluates machine learning model performance, ensuring reliability and generalization.
+
+### 11. Feature Selection:
+
+    
+🎯 Identifies significant features, assisting in building effective machine learning models.
+
+### 12. Understanding Uncertainty in AI Models:
+
+    
+❓ Provides tools to quantify and handle uncertainty, crucial in deep learning and reinforcement learning.
+
+![image](https://github.com/VishalDeoPrasad/Data-Analysis/assets/44454324/23324b66-d669-47d2-b6b2-6f973a9035d5)
+In summary, statistics is the backbone of data science, machine learning, and AI, providing essential tools to extract insights, validate assumptions, make predictions, and build robust models.
+--------------------------------------------------------------------------
+### Q1. What are the feature selection methods used to select the right variables?
+There are two main methods for feature selection, i.e, filter, and wrapper methods.
+
+1. Filter Methods
+This involves: 
+   * Linear discrimination analysis
+   * ANOVA
+   * Chi-Square
+
+The best analogy for selecting features is "bad data in, bad answer out." When we're limiting or selecting the features, it's all about cleaning up the data coming in. 
+
+2. Wrapper Methods
+This involves: 
+    * Forward Selection: We test one feature at a time and keep adding them until we get a good fit
+    * Backward Selection: We test all the features and start removing them to see what works better
+    * Recursive Feature Elimination: Recursively looks through all the different features and how they pair together
+
+Wrapper methods are very labor-intensive, and high-end computers are needed if a lot of data analysis is performed with the wrapper method. 
+
+### Q2. How can you avoid overfitting your model?
+Overfitting refers to a model that is only set for a very small amount of data and ignores the bigger picture. There are three main methods to avoid overfitting:
+
+   1. Keep the model simple—take fewer variables into account, thereby removing some of the noise in the training data
+   1. Use cross-validation techniques, such as k folds cross-validation 
+   1. Use regularization techniques, such as LASSO, that penalize certain model parameters if they're likely to cause overfitting
+
+
+
+
+
+
+
+---------------------------------------------------------------------------
 
 **Uni-variate**, **bi-variate**, and **multi-variate** analyses are statistical techniques used in data analysis to **understand relationships between variables**. They are not specific to AI but rather fall under the broader umbrella of statistics and data analysis. 
 
