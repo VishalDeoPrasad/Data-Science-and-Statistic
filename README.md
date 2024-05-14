@@ -28,6 +28,17 @@ Supervised and unsupervised learning are two primary types of machine learning a
 1. Clustering and dimensionality reduction are typical tasks in unsupervised learning. Clustering algorithms group similar data points together, while dimensionality reduction techniques aim to reduce the complexity of the data by capturing its essential features.
 1. Examples of unsupervised learning algorithms include K-means clustering, hierarchical clustering, principal component analysis (PCA), and autoencoders.
 
+# 4. How do you handle a dataset missing several values?
+There are various ways to handle missing data. You can:
+
+1. Drop the rows with missing values.
+2. Drop the columns with several missing values.
+3. Fill the missing value with a string or numerical constant. 
+4. Replace the missing values with the average or median value of the column. 
+5. Use multiple-regression analyses to estimate a missing value.
+6. Use multiple columns to replace missing values with average simulated values and random errors.
+- you're considering various features to estimate the missing values. You'd simulate these values by calculating their averages and adding random errors to make them more realistic. This approach helps maintain the integrity of the data set while filling in the gaps caused by missing values.
+
 # Handling missing values:
 ### 1. Imputation:
 
