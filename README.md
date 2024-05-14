@@ -281,6 +281,11 @@ There are many hypothesis tests used in statistical analysis. Below are several 
 - **Description:** A statistical test used to determine if there are changes in proportions between two related categorical variables measured at two different time points.
 - **Use:** Commonly used in before-and-after studies or in studies with paired categorical data.
 
+#### Chi-Square Test:
+* The Chi-Square test is a statistical test used to determine if there is a significant association between two categorical variables.
+In the context of feature selection, the Chi-Square test can be used to assess the independence between each feature and the target variable. Features that are highly dependent on the target variable are considered more important and can be selected for further analysis.
+This test is particularly useful when dealing with categorical data or when the relationship between features and the target variable is not linear.
+
 ### Tests for Numerical Data
 
 #### Pearson Test
@@ -294,6 +299,10 @@ There are many hypothesis tests used in statistical analysis. Below are several 
 #### ANOVA (Analysis of Variance)
 - **Description:** Compares the means of three or more independent groups to determine if there are any statistically significant differences between them.
 - **Use:** Useful for comparing means across multiple groups simultaneously.
+- ANOVA (Analysis of Variance): 
+   * ANOVA is a statistical test used to compare the means of two or more groups to determine if there are statistically significant differences between them.
+In the context of feature selection, ANOVA can be used to assess the importance of individual features by analyzing the variance between different groups or categories in the target variable.
+   * Features that result in a large variance between groups and a small variance within groups are considered more important and can be selected for further analysis.
 
 ![alt text](image.png)
 ![alt text](image-1.png)
