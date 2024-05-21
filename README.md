@@ -559,6 +559,187 @@ In the context of feature selection, ANOVA can be used to assess the importance 
 ![alt text](image-3.png)
 ![alt text](image-4.png)
 
+```python
+import seaborn as sns
+import pandas as pd
+
+# Load the Titanic dataset directly from seaborn
+titanic = sns.load_dataset('titanic')
+titanic
+```
+![alt text](image-5.png)
+# What is Univariate Analysis?
+When you do analysis on single variable that is called univariate analysis. Independent analysis of single variable that is called univariate analysis.
+
+## 1. Categorical Data
+``If you have categorical data then you have only 2 option either you go for count plot/bar plot or you go for pie chart, but pie chart give you only option to see the percentage.``
+1. **Count Plot:** Tell us the frequency of all the category. how many times each category appear. samething as value count.
+
+   **Python Code**
+   ```python
+   import seaborn as sns
+   import matplotlib.pyplot as plt
+
+   # Create a count plot of the 'Survived' column
+   sns.countplot(data=titanic, x='survived')
+
+   # Add title and labels
+   plt.title('Count Plot of Survival on the Titanic')
+   plt.xlabel('Survived')
+   plt.ylabel('Count')
+
+   # Display the plot
+   plt.show()
+   ```
+   ![alt text](image-6.png)
+
+   **Python Code**
+   ```python
+   titanic.survived.value_counts().plot(kind='bar')
+   ```
+   ![alt text](image-7.png)
+
+   **Q. why most of the people prefer to travel in 1st class then 2nd class. give justification.** <br> Ans -
+   1. May be because of slighly difference in price of 1st and 2nd class.
+   1. May be 2nd class has not much capacity 
+   1. find our mean fare price to understand less people in 2nd class then 1st class
+
+   **python code**
+   ```python 
+   sns.countplot(data=titanic, x='pclass')
+   ```
+   ![alt text](image-8.png)
+
+2. **Pie Chart:** A pie chart is a round graph that looks like a pie. It is divided into slices to show how big different parts of a whole group are. Each slice represents a part, and the size of the slice shows how large that part is compared to the others.
+   **python code**
+   ```python
+   titanic['embarked'].value_counts().plot(kind='pie', autopct='%.2f')
+   ```
+   *Observation: According to this pie char, approx 73% people take their ship in southen region* <br>
+   ![alt text](image-9.png)
+
+   **python code**
+   ```python
+   titanic['pclass'].value_counts().plot(kind='pie', autopct='%.2f')
+   ```
+   *Observation: According to the pie char, 55% of people travel in 3rd class 24% of people travel from 1st class and only 20% of people are travel to 2nd class.* <br>
+   ![alt text](image-10.png)
+
+3. **count:** The number of non-null observations
+   ```python
+   count = pclass_data.count()
+   ```
+
+4. **Nunique**: The number of unique values
+   ```python 
+   nunique = pclass_data.nunique()
+   ```
+
+5. **Unique**: The unique values
+   ```python
+   unique = pclass_data.unique()
+   ```
+
+6. **Mode**: The most frequent value
+   ```python
+   mode = pclass_data.mode()[0]
+   ```
+
+7. **Value_counts:** The frequency of each unique value
+   ```python
+   value_counts = pclass_data.value_counts()
+   ```
+   ![alt text](image-11.png)
+
+8. **Chi-Square Test - Goodness of fit**
+   ![alt text](image-12.png)
+
+   ## **Example 1:** Chi-Square Test for Goodness of Fit using Blood types
+   - **Explanation**: This test checks if the observed frequencies of categorical data match an expected distribution.
+   - **Example**: Suppose you want to test if the observed distribution of blood types in a population matches the expected distribution (e.g., 40% type A, 30% type B, 20% type O, 10% type AB).
+
+   **Python code**
+   ```python
+   import scipy.stats as stats
+
+   # Observed frequencies of blood types
+   observed = [110, 85, 65, 40]
+
+   # Expected frequencies based on the population distribution
+   expected = [0.4 * sum(observed), 0.3 * sum(observed), 0.2 * sum(observed), 0.1 * sum(observed)]
+
+   # Perform Chi-Square Test
+   chi2, p = stats.chisquare(observed, expected)
+
+   print(f"Chi-Square Statistic: {chi2}")
+   print(f"P-value: {p}")
+   ```
+   ![alt text](image-13.png)
+
+   **Output:**
+   - Chi-Square Statistic: 4.86
+   - P-value: 0.182
+
+   **Explanation:**
+   1. Chi-Square Statistic (4.86):
+      * Measures the difference between observed and expected frequencies.
+      * Larger values indicate a greater difference.
+   
+   2. P-value (0.182):
+      * Represents the probability of observing the given chi-square statistic under the null hypothesis.
+      * A high p-value (0.182) suggests that the difference is not statistically significant.
+
+   **Conclusion:**
+      * The observed frequencies are not significantly different from the expected frequencies.
+      * We fail to reject the null hypothesis (observed matches expected).
+
+   ## **Example 2:** Chi-Square Test for Goodness of Fit using Titanic Dataset
+
+   This example demonstrates how to perform a Chi-Square Test for Goodness of Fit using the 'pclass' column from the Titanic dataset.
+
+   **Python Code**
+
+   ```python
+   import pandas as pd
+   from scipy.stats import chisquare
+
+   # Load the Titanic dataset
+   titanic = pd.read_csv('titanic.csv')
+
+   # Observed frequencies of 'pclass'
+   observed = titanic['pclass'].value_counts().sort_index()
+
+   # Expected frequencies (assuming equal distribution)
+   expected = [len(titanic) / 3] * 3
+
+   # Perform Chi-Square Test
+   chi2, p_value = chisquare(observed, expected)
+
+   print(f"Chi-Square Statistic: {chi2}")
+   print(f"P-value: {p_value}")
+   ```
+   ![alt text](image-14.png)
+
+   **Output:**
+   - Chi-Square Statistic: 191.8047138047138
+   - P-value: 2.2394202231028854e-42
+
+   **Explanation**
+   1. Chi-Square Statistic (191.80):
+      * This value measures the difference between the observed frequencies of passenger classes ('pclass') and the expected frequencies assuming an equal distribution.
+      * A larger chi-square statistic indicates a greater difference between observed and expected frequencies.
+   
+   2. P-value (2.24e-42):
+      * The p-value represents the probability of observing such a large difference between observed and expected frequencies if the null hypothesis (equal distribution) were true.
+      * A very small p-value (close to zero) suggests strong evidence against the null hypothesis.
+
+   **Conclusion**
+      * The chi-square statistic is very large (191.80), indicating a significant difference between the observed and expected frequencies.
+      * The p-value is extremely small (2.24e-42), providing strong evidence that the observed distribution of passenger classes is not equal.
+      * Therefore, we reject the null hypothesis and conclude that the distribution of passenger classes ('pclass') in the Titanic dataset is not equally distributed.
+
+
+## 2. Numerical Data
 
 ---------------------------------------------------------------------------------------------------------
 # Question & Answer
