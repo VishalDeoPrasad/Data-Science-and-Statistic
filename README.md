@@ -571,7 +571,7 @@ titanic
 # What is Univariate Analysis?
 When you do analysis on single variable that is called univariate analysis. Independent analysis of single variable that is called univariate analysis.
 
-## 1. Categorical Data
+# 1. Categorical Data
 ``If you have categorical data then you have only 2 option either you go for count plot/bar plot or you go for pie chart, but pie chart give you only option to see the percentage.``
 1. **Count Plot:** Tell us the frequency of all the category. how many times each category appear. samething as value count.
 
@@ -738,8 +738,104 @@ When you do analysis on single variable that is called univariate analysis. Inde
       * The p-value is extremely small (2.24e-42), providing strong evidence that the observed distribution of passenger classes is not equal.
       * Therefore, we reject the null hypothesis and conclude that the distribution of passenger classes ('pclass') in the Titanic dataset is not equally distributed.
 
+# 2. Numerical Data
+`Numerical data has continues value like age, salary etc. we can find the mean, median, min value, max value etc`
 
-## 2. Numerical Data
+1. **Histogram:** In numerical data we have some range, we create a bins in that data. lets say we have age column in which it ranges from 0 to 80, we can create a bin size of 10 and create 8 bins. and count the how many passanger in each bins and we plot it.
+   * histrogram also help us to understand the distribution of the data.
+   * The whole idea behind the histogram is to understand the distribution of the data in that numerical columns.
+
+   **Python code**
+   ```python
+   import matplotlib.pyplot as plt
+
+   # Plot the histogram
+   plt.figure(figsize=(10, 6))
+   plt.hist(titanic['age'], bins=30, edgecolor='black')
+   plt.title('Age Distribution of Titanic Passengers')
+   plt.xlabel('Age')
+   plt.ylabel('Frequency')
+   plt.grid(True)
+   plt.show()
+   ```
+
+   *Observation: According to the figure there are very less people below the age 15 and greater then age 50, majority of the people have age between 18 to 45 are traveling in the ship*
+   ![alt text](image-15.png)
+
+2. **Distplot:** The improvement of histogram we called it distplot. it also tell us the data distribution we called it PDF(probability density function). in the `y-axis` it has probabilty and in the x-axis it has `age` column.
+
+   **Python Code**
+   ```python
+   # Set the style of the visualization
+   sns.set(style="whitegrid")
+
+   # Plot the distribution of the 'Age' column
+   plt.figure(figsize=(10, 6))
+   sns.distplot(titanic['age'], kde=True, bins=30)
+   plt.title('Age Distribution of Titanic Passengers')
+   plt.xlabel('Age')
+   plt.ylabel('Frequency')
+   plt.show()
+   ```
+   *Observation: using this graph we can easly find out what is the probability of having age=40 which comes to be 1.5%, it is good way to find out the probability by looking at he y-axis. similary for age 60 there is 0.5% probabiltly that is why this is called pdf.*
+   ![alt text](image-17.png)
+
+3. **Boxplot:** Thired type of plot when we dealing with numerical data is called box plot. it gives us 5-number summery. we generally use it when data has outliers.
+   ![alt text](image-20.png)
+   1. **Median(50th percentile):**: when we short the numerical value the middle number is called median.
+   2. **Q1(25th percentile):** it show that 25 percentage of people are below certain range. for example cat test score 25 percenitle which mean 25% of people are below of you.
+   3. **Q3(75th percentile):** it shows that 75 percentile value is less then current marking.
+   4. **Minimum Value:** This is not the minimum value of the columns, it is `Q1-1.5 x IQR`.
+   where `IQR = Q3-Q1`
+   5. **Maximum Value:** `Q3 + 1.5 x IQR`
+
+   `Note: if any value are less then calculated minimum or calculated maximum then that value is potential outliers.` <br>
+   `This is avantage of 5-number summary, we can easly find out the potential outliers and eliminate as well.` <br>
+   `When ever you are working with any noise data then you can plot a boxplot and check how much data is noise and how much data is outliers.`
+
+   **Python code**
+   ```python
+   # Extract the 'Fare' column
+   fares = titanic['fare']
+
+   # Create a box plot
+   plt.figure(figsize=(10, 6))
+   plt.boxplot(fares, vert=False, patch_artist=True, boxprops=dict(facecolor='lightblue'))
+
+   # Add titles and labels
+   plt.title('Fare Distribution of Titanic Passengers')
+   plt.xlabel('Fare')
+
+   # Show the plot
+   plt.show()
+   ```
+   ![alt text](image-21.png)
+
+   **python code**
+   ```python
+   # Set the style of the visualization
+   sns.set(style="whitegrid")
+
+   # Create the box plot
+   plt.figure(figsize=(10, 6))
+   sns.boxplot(x=titanic['fare'], color='lightblue')
+
+   # Add titles and labels
+   plt.title('Fare Distribution of Titanic Passengers')
+   plt.xlabel('Fare')
+
+   # Show the plot
+   plt.show()
+   ```
+   ![alt text](image-22.png)
+
+   **Python code**
+   ```python
+   plt.figure(figsize=(10, 6))
+   sns.boxplot(x=titanic['age'], color='lightblue')
+   ```
+   ![alt text](image-23.png)
+
 
 ---------------------------------------------------------------------------------------------------------
 # Question & Answer
