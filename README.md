@@ -834,7 +834,117 @@ When you do analysis on single variable that is called univariate analysis. Inde
    plt.figure(figsize=(10, 6))
    sns.boxplot(x=titanic['age'], color='lightblue')
    ```
+   *Observation: Minimum value around 28 calculated maximum around 65 and beyound this value boxplot consider as potential outliers. if you wish you can eliminiated this outliers.*
    ![alt text](image-23.png)
+
+4. **Minimum Value:**
+   ```python
+   titanic['age'].min()
+   ```
+
+5. **Maximum Value:**
+   ```python
+   titanic['age'].max()
+   ```
+
+6. **Mean:**
+   ```python
+   titanic['age'].mean()
+   ```
+
+7. **Standard deviation:**
+   *example: calculate the stardard deviation of mens and women hair. men have very low standard deviation where as female has high standard deviations. this tells that most of the guys have standard deviation close to mean then girls.*
+
+   Finding the standard deviation of the Age column (or any numerical data) in the Titanic dataset (or any dataset) serves several important purposes in data analysis and statistical interpretation:
+
+   a. **Measure of Dispersion:** <br>
+   The standard deviation (std) is a measure of the amount of variation or dispersion in a set of values. In this context, it tells us how much the ages of passengers on the Titanic vary from the average age (mean age). A higher standard deviation indicates that the ages are spread out over a wider range, whereas a lower standard deviation indicates that the ages are closer to the mean.
+      ```python
+      age_std = titanic_df['Age'].std()
+      print(f'Standard Deviation of Age: {age_std}')
+      ```
+      *Observaton: Suppose the standard deviation of the Age column is 14.5. This indicates that the ages of the passengers tend to vary by about 14.5 years from the mean age.*
+
+      ![alt text](image-24.png)
+
+   b. **Data Understanding:**<br>
+   Understanding the spread of ages among Titanic passengers can provide insights into the demographics of the passengers. For example, if the standard deviation is high, it suggests that the passengers were a diverse group in terms of age. This information can be crucial for various analyses, such as studying survival rates across different age groups.
+      ```python
+      age_std = titanic_df['Age'].std()
+      print(f'Standard Deviation of Age: {age_std}')
+      # Insight: High standard deviation indicates diverse age groups.
+      ```
+      *Observation: If the standard deviation of ages is high, such as 20 years, it suggests a wide range of ages among passengers.*
+      ![alt text](image-24.png)
+
+
+   c. **Statistical Analysis:**<br>
+   The standard deviation is a fundamental concept in statistics and is used in various statistical formulas and tests. For instance, it plays a key role in hypothesis testing, confidence intervals, and in the calculation of z-scores, which are used to determine how far a particular data point is from the mean in units of standard deviations.
+
+      * **Hypothesis Testing:** Suppose we want to test if the mean age of survivors differs significantly from the mean age of non-survivors.
+
+      * The standard deviation is used in the calculation of the t-statistic, which helps determine if there is a statistically significant difference between the mean ages of survivors and non-survivors.
+         ```python
+         from scipy.stats import ttest_ind
+
+         survivors = titanic_df[titanic_df['Survived'] == 1]['Age'].dropna()
+         non_survivors = titanic_df[titanic_df['Survived'] == 0]['Age'].dropna()
+
+         t_stat, p_value = ttest_ind(survivors, non_survivors)
+         print(f'T-statistic: {t_stat}, P-value: {p_value}')
+         ```
+
+         ![alt text](image-25.png)
+
+         **Explanation**:
+         * T-statistic: -2.06668694625381
+            - The T-statistic is a measure of the difference between the means of two groups (survivors and non-survivors), normalized by the variability of the samples.
+            * A negative value indicates that the mean age of survivors is less than the mean age of non-survivors.
+            * The magnitude of the T-statistic shows how much the means of the two groups differ relative to the variability in the data.
+         
+         * P-value: 0.03912465401348249
+            - The P-value helps determine the statistical significance of the observed difference between the means of the two groups.
+            - A P-value less than 0.05 (common significance level) suggests that the observed difference is statistically significant, meaning it's unlikely to have occurred by random chance.
+            - In this case, the P-value is approximately 0.039, which is less than 0.05. This indicates that the difference in mean ages between survivors and non-survivors is statistically significant at the 5% significance level.
+
+
+   d. **Normalization and Standardization:**<br>
+   When preparing data for machine learning models, standard deviation is used in normalization and standardization processes. Standardization involves rescaling data to have a mean of 0 and a standard deviation of 1, which can improve the performance of certain algorithms.
+      * **Standardization:** Rescaling the Age column to have a mean of 0 and a standard deviation of 1.
+
+      * Standardizing the Age column helps in improving the performance of machine learning algorithms by ensuring each feature contributes equally to the result.
+         ```python
+         from sklearn.preprocessing import StandardScaler
+
+         scaler = StandardScaler()
+         titanic_df['Age_standardized'] = scaler.fit_transform(titanic_df[['Age']])
+         print(titanic_df[['Age', 'Age_standardized']].head())
+         ```
+
+
+   **e. Comparative Analysis:**<br>
+   By comparing the standard deviation of ages between different groups (e.g., different classes, survival status), we can identify patterns and differences. For instance, we might find that the standard deviation of ages is different between survivors and non-survivors, which could lead to further insights and hypotheses.
+      * **Comparing Age Standard Deviation by Class:**
+         ```python
+         first_class_age_std = titanic_df[titanic_df['Pclass'] == 1]['Age'].std()
+         second_class_age_std = titanic_df[titanic_df['Pclass'] == 2]['Age'].std()
+         third_class_age_std = titanic_df[titanic_df['Pclass'] == 3]['Age'].std()
+
+         print(f'First Class Age Std: {first_class_age_std}')
+         print(f'Second Class Age Std: {second_class_age_std}')
+         print(f'Third Class Age Std: {third_class_age_std}')
+         ```
+
+         *Observation: Suppose we find that the standard deviation of ages in first class is 10 years, second class is 15 years, and third class is 20 years. This indicates that the age range is most diverse in third class, potentially reflecting different demographics or family compositions across classes.*
+         ![alt text](image-26.png)
+
+
+8. **Variance:**
+   ![alt text](image-27.png)
+
+9. **Difference between Standard Deviation and variance**
+
+9. **Independent two-sample t-test:**
 
 
 ---------------------------------------------------------------------------------------------------------
